@@ -1,0 +1,27 @@
+version: "2"
+services:
+  demo_php:
+    build: ./docker/php
+    container_name: demo_php
+    ports:
+      - "8080:80"
+    depends_on:
+      - demo_db
+    links:
+      - demo_db
+    volumes:
+      - ./php:/var/www/php
+    tty: true
+
+  demo_db:
+    build: ./docker/db
+    container_name: demo_db
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: demo_db
+      MYSQL_HOST: "localhost"
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
